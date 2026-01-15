@@ -1,9 +1,10 @@
-// database/db.go
 package database
 
 import (
 	"finance/models"
+	"fmt"
 	"log"
+	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -12,7 +13,16 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	dsn := "root@tcp(127.0.0.1:3306)/finance_mobile?charset=utf8mb4&parseTime=True&loc=Local"
+	// Ambil konfigurasi dari environment variable
+	dbUser := os.Getenv("DB_USER")
+	dbPass := os.Getenv("DB_PASS")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+
+	// Format DSN MySQL
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		dbUser, dbPass, dbHost, dbPort, dbName)
 
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -20,6 +30,7 @@ func Connect() {
 		log.Fatal("Failed to connect to MySQL:", err)
 	}
 
+	// AutoMigrate semua model
 	if err := DB.AutoMigrate(
 		&models.User{},
 		&models.Category{},
