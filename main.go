@@ -2,7 +2,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"finance/database"
@@ -75,5 +74,6 @@ func main() {
 	
 	app.Listen(":" + os.Getenv("PORT"))
 }
+
 
 
