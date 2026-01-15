@@ -3,6 +3,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"finance/database"
 	"finance/handlers"
@@ -71,7 +72,8 @@ func main() {
 	app.Get("/profile", handlers.GetProfile)
 	app.Put("/profile", handlers.UpdateProfile)
 	app.Post("/profile/photo", handlers.UploadPhoto)
-)
+	
 	app.Listen(":" + os.Getenv("PORT"))
 }
+
 
