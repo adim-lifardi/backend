@@ -71,7 +71,7 @@ func main() {
 	app.Get("/profile", handlers.GetProfile)
 	app.Put("/profile", handlers.UpdateProfile)
 	app.Post("/profile/photo", handlers.UploadPhoto)
-
-	log.Println("Listening on :3000")
-	app.Listen(":3000")
+)
+	app.Listen(":" + os.Getenv("PORT"))
 }
+
