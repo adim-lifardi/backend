@@ -1,8 +1,8 @@
-// main.go
 package main
 
 import (
 	"os"
+	"log"
 
 	"finance/database"
 	"finance/handlers"
@@ -48,6 +48,7 @@ func main() {
 	app.Get("/transactions/:id", handlers.GetTransaction)
 	app.Put("/transactions/:id", handlers.UpdateTransaction)
 	app.Delete("/transactions/:id", handlers.DeleteTransaction)
+
 	// Reports
 	app.Get("/reports/summary", handlers.GetSummary)
 	app.Get("/reports/monthly", handlers.GetMonthlySummary)
@@ -62,18 +63,21 @@ func main() {
 	app.Get("/budgets/:id/detail", handlers.GetBudgetDetail)
 
 	// Notifications
-
 	app.Post("/notifications", handlers.CreateNotification)
 	app.Get("/notifications", handlers.GetNotifications)
 	app.Get("/notifications/:id", handlers.GetNotificationDetail)
 	app.Delete("/notifications/:id", handlers.DeleteNotification)
 
+	// Profile
 	app.Get("/profile", handlers.GetProfile)
 	app.Put("/profile", handlers.UpdateProfile)
 	app.Post("/profile/photo", handlers.UploadPhoto)
-	
-	app.Listen(":" + os.Getenv("PORT"))
+
+	// Ambil PORT dari env, fallback ke 8000
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+	log.Println("Server running on port " + port)
+	app.Listen(":" + port)
 }
-
-
-
