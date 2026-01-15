@@ -13,11 +13,27 @@ import (
 var DB *gorm.DB
 
 func Connect() {
+	// Ambil env dengan fallback default
 	host := os.Getenv("DATABASE_HOST")
+	if host == "" {
+		host = "localhost"
+	}
+
 	user := os.Getenv("DATABASE_USER")
+	if user == "" {
+		user = "postgres"
+	}
+
 	password := os.Getenv("DATABASE_PASSWORD")
 	dbname := os.Getenv("DATABASE_NAME")
-	port := os.Getenv("DATABASE_PORT") // default 5432
+	if dbname == "" {
+		dbname = "postgres"
+	}
+
+	port := os.Getenv("DATABASE_PORT")
+	if port == "" {
+		port = "5432"
+	}
 
 	// DSN format untuk Postgres
 	dsn := fmt.Sprintf(
